@@ -1,0 +1,20 @@
+<!DOCTYpE html>
+<html lang="en">
+<head>
+    <title>Menu Maker</title>
+    <link href="{{ url_for('static',filename='styles/style.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <h1>{{restaurant.name}}</h1>
+
+    {% for i in items %}
+    <div>
+        <p><strong>{{i.name}}</strong></p>
+        <p>{{i.description}}</p>
+        <p>{{i.price}}</p>
+        <p><a href="{{url_for('editMenuItem', menu_id=i.id, restaurant_id=restaurant.id)}}">Edit</a>
+        <a href="{{url_for('deleteMenuItem', menu_id=i.id, restaurant_id=restaurant.id)}}">Delete</a></p>
+    </div><br>
+    {% endfor %}
+</body>
+</html>
