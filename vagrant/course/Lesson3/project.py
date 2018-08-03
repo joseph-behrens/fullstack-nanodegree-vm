@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem
@@ -8,35 +8,49 @@ from database_setup import Base, Restaurant, MenuItem
 app = Flask(__name__)
 
 
+def create_db_session():
+    engine = create_engine('sqlite:///restaurantmenu.db')
+    Base.metadata.bind = engine
+    DBSession = sessionmaker(bind=engine)
+    session = DBSession()
+    return session
 
 
 @app.route('/')
 @app.route('/restaurants/<int:restaurant_id>/')
 def restaurantMenu(restaurant_id):
-    engine = create_engine('sqlite:///restaurantmenu.db')
-    Base.metadata.bind = engine
-
-    DBSession = sessionmaker(bind=engine)
-    session = DBSession()
-    
-    restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+    session = create_db_session()
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     items = session.query(MenuItem).filter_by(restaurant_id=restaurant.id)
-    
+
     return render_template('menu.html', restaurant=restaurant, items=items)
 
-# Task 1: Create route for newMenuItem function here
 
-@app.route('/restaurants/<int:restaurant_id>/new')
+@app.route('/restaurants/<int:restaurant_id>/new', methods=['GET', 'POST'])
 def newMenuItem(restaurant_id):
-    return "page to create a new menu item. Task 1 complete!"
+    session = create_db_session()
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    if request.method == 'POST':
+        newItem = MenuItem(
+            name=request.form['name'],
+            description=request.form['description'],
+            price=request.form['price'],
+            restaurant_id=restaurant_id)
+        session = create_db_session()
+        session.add(newItem)
+        session.commit()
+        return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
+    else:
+        return render_template(
+            'newmenuitem.html',
+            restaurant_id=restaurant_id,
+            restaurant=restaurant)
 
-# Task 2: Create route for editMenuItem function here
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/edit')
 def editMenuItem(restaurant_id, menu_id):
     return "page to edit a menu item. Task 2 complete!"
 
-# Task 3: Create a route for deleteMenuItem function here
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/delete')
 def deleteMenuItem(restaurant_id, menu_id):
@@ -45,4 +59,4 @@ def deleteMenuItem(restaurant_id, menu_id):
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host = '0.0.0.0', port = 5000)
+    app.run(host='0.0.0.0', port=5000)
