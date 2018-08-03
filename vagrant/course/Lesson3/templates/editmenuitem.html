@@ -1,0 +1,26 @@
+<!DOCTYpE html>
+<html lang="en">
+<head>
+    <title>Menu Maker: Edit {{menu_item.name}}</title>
+    <link href="{{ url_for('static',filename='styles/style.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <h1>Create New Menu Item for {{restaurant.name}}</h1>
+    <form action="{{ url_for('editMenuItem', restaurant_id=restaurant_id, menu_id=menu_id )}}" method="POST">
+        <div class="form_input">
+            <label for='name'>Name:</label>
+            <input type='text' size='30' name='name' value="{{menu_item.name}}" required>
+        </div>
+        <div class="form_input">
+            <label for='description'>Description:</label>
+            <input type='text' size='30' name='description' value="{{menu_item.description}}" required>
+        </div>
+        <div class="form_input">
+            <label for='price'>Price:</label>
+            <input type="text" size='30' name='price' value="{{menu_item.price}}" required> 
+        </div>       
+        <br><input type='submit' value="Update" class="submit">
+        <a href="{{ url_for('restaurantMenu', restaurant_id=restaurant_id )}}">Cancel</a>
+    </form>
+</body>
+</html>
