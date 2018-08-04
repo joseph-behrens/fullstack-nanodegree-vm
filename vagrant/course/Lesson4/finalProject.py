@@ -45,7 +45,8 @@ def showRestaurants():
 def showRestaurantsJson():
     db = DB_Connection()
     restaurants = db.get_all_restaurants()
-    return jsonify(Restaurants=[restaurant.serialize for restaurant in restaurants])
+    return jsonify(
+        Restaurants=[restaurant.serialize for restaurant in restaurants])
 
 
 @app.route('/restaurants/new', methods=['GET', 'POST'])
@@ -58,7 +59,8 @@ def newRestaurant():
         db.session.add(new_restaurant)
         db.session.commit()
         flash('New restaurant {} created!'.format(new_restaurant.name))
-        return redirect(url_for('newMenuItem', restaurant_id=new_restaurant.id))
+        return redirect(
+            url_for('newMenuItem', restaurant_id=new_restaurant.id))
     else:
         return render_template('new-restaurant.html')
 
@@ -97,7 +99,20 @@ def showMenu(restaurant_id):
     db = DB_Connection()
     restaurant = db.get_restaurant(restaurant_id)
     menu = db.get_menu(restaurant_id)
-    return render_template('menu.html', restaurant=restaurant, menu=menu)
+    appetizer = any(item.course == "Appetizer" for item in menu)
+    entree = any(item.course == "Entree" for item in menu)
+    dessert = any(item.course == "Dessert" for item in menu)
+    beverage = any(item.course == "Beverage" for item in menu)
+    other = any(item.course not in ["Appetizer","Entree","Dessert","Beverage"] for item in menu)
+    return render_template(
+        'menu.html',
+        restaurant=restaurant,
+        menu=menu,
+        appetizer=appetizer,
+        entree=entree,
+        dessert=dessert,
+        beverage=beverage,
+        other=other)
 
 
 @app.route('/api/restaurants/<int:restaurant_id>/menu')
@@ -114,7 +129,8 @@ def showMenuItemJson(restaurant_id, menu_id):
     return jsonify(MenuItem=menu_item.serialize)
 
 
-@app.route('/restaurants/<int:restaurant_id>/menu/new', methods=['GET', 'POST'])
+@app.route(
+    '/restaurants/<int:restaurant_id>/menu/new', methods=['GET', 'POST'])
 def newMenuItem(restaurant_id):
     db = DB_Connection()
     restaurant = db.get_restaurant(restaurant_id)
@@ -133,7 +149,9 @@ def newMenuItem(restaurant_id):
     return render_template('new-menu-item.html', restaurant=restaurant)
 
 
-@app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/edit', methods=['GET', 'POST'])
+@app.route(
+    '/restaurants/<int:restaurant_id>/menu/<int:menu_id>/edit',
+    methods=['GET', 'POST'])
 def editMenuItem(restaurant_id, menu_id):
     db = DB_Connection()
     restaurant = db.get_restaurant(restaurant_id)
@@ -141,7 +159,7 @@ def editMenuItem(restaurant_id, menu_id):
     old_name = menu_item.name
     old_price = menu_item.price
     if request.method == 'POST':
-        menu_item.course == request.form['course']
+        menu_item.course = request.form['course']
         menu_item.name = request.form['name']
         menu_item.description = request.form['description']
         menu_item.price = request.form['price']
@@ -154,7 +172,9 @@ def editMenuItem(restaurant_id, menu_id):
             "edit-menu-item.html", restaurant=restaurant, menu_item=menu_item)
 
 
-@app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/delete', methods=['GET', 'POST'])
+@app.route(
+    '/restaurants/<int:restaurant_id>/menu/<int:menu_id>/delete',
+    methods=['GET', 'POST'])
 def deleteMenuItem(restaurant_id, menu_id):
     db = DB_Connection()
     restaurant = db.get_restaurant(restaurant_id)
@@ -167,7 +187,8 @@ def deleteMenuItem(restaurant_id, menu_id):
         return redirect(url_for('showMenu', restaurant_id=restaurant_id))
     else:
         return render_template(
-            'delete-menu-item.html', restaurant=restaurant, menu_item=menu_item)
+            'delete-menu-item.html',
+            restaurant=restaurant, menu_item=menu_item)
 
 
 if __name__ == '__main__':
