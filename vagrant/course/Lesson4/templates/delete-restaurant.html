@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Menu Maker: Delete {{restaurant.name}}</title>
+    <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+        <h1>Delete {{restaurant.name}}</h1>
+        <nav>
+            <a href="{{ url_for('showRestaurants') }}">Home</a>
+        </nav>
+    </header>
+    <main>
+        <form action="#" method="POST" class="form">
+            <div>
+                <h2>Are you SURE?</h2>
+                <h3>This cannot be undone!</h3>
+            </div>
+            <div>
+                <input type="submit" value="DELETE!">
+                <a href="/"><input type="button" value="Cancel"></a> <!-- TODO: Convert to Bootstrap -->
+            </div>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2018 Joseph Behrens</p>
+    </footer>
+</body>

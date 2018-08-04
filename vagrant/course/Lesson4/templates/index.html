@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Menu Maker</title>
+    <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+        <h1>Restaurant Menus</h1>
+        <nav>
+            <a href="{{ url_for('newRestaurant') }}">Create a New Restaurant</a>
+        </nav>
+    </header>
+    <main>
+        {% for restaurant in restaurants %}
+            <div>
+                <a href="/restaurants/{{restaurant.id}}/menu">{{restaurant.name}}</a>
+                <p><a href="{{ url_for('editRestaurant', restaurant_id=restaurant.id) }}">Edit</a></p>
+                <p><a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.id) }}">Delete</a></p>
+            </div>
+        {% endfor %}
+    </main>
+    <footer>
+        <p>&copy; 2018 Joseph Behrens</p>
+    </footer>
+</body>

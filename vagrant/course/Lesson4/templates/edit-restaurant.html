@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Menu Maker: Edit {{restaurant.name}}</title>
+    <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+        <h1>Edit {{restaurant.name}}</h1>
+        <nav>
+            <a href="{{ url_for('showRestaurants') }}">Home</a>
+        </nav>
+    </header>
+    <main>
+        <form action="#" method="POST" class="form">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="name" value="{{restaurant.name}}">
+            </div>
+            <div>
+                <input type="submit" value="Update">
+                <a href="/"><input type="button" value="Cancel"></a> <!-- TODO: Convert to Bootstrap -->
+            </div>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2018 Joseph Behrens</p>
+    </footer>
+</body>

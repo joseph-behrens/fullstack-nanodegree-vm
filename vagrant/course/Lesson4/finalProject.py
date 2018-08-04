@@ -20,14 +20,17 @@ class DB_Connection:
         return self.session.query(Restaurant)
 
     def get_restaurant(self, restaurant_id):
-        return self.session.query(Restaurant).filter_by(id=restaurant_id).one()
+        return self.session.query(Restaurant).filter_by(
+            id=restaurant_id).one()
 
     def get_menu(self, restaurant_id):
-        return self.session.query(MenuItem).filter_by(restaurant_id=restaurant_id)
+        return self.session.query(
+            MenuItem).filter_by(
+                restaurant_id=restaurant_id)
 
     def get_menu_item(self, menu_id):
-        return self.session.query(MenuItem).filter_by(id=menu_id).one()
-
+        return self.session.query(MenuItem).filter_by(
+            id=menu_id).one()
 
 
 @app.route('/')
@@ -35,44 +38,59 @@ class DB_Connection:
 def showRestaurants():
     db = DB_Connection()
     restaurants = db.get_all_restaurants()
-    for restaurant in restaurants:
-        print(restaurant.name)
-    return "This will show full list of restaurants"
+    return render_template('index.html', restaurants=restaurants)
 
 
 @app.route('/restaurants/new')
 def newRestaurant():
-    return "This will have a form for new restaurant creation"
+    return render_template('new-restaurant.html')
 
 
 @app.route('/restaurants/<int:restaurant_id>/edit')
 def editRestaurant(restaurant_id):
-    return "This will have a form to edit an existing restaurant ID: {}".format(restaurant_id)
+    db = DB_Connection()
+    restaurant = db.get_restaurant(restaurant_id)
+    return render_template('edit-restaurant.html', restaurant=restaurant)
 
 
 @app.route('/restaurants/<int:restaurant_id>/delete')
 def deleteRestaurant(restaurant_id):
-    return "This will be a confirmation page for deleting a restaurant ID: {}".format(restaurant_id)
+    db = DB_Connection()
+    restaurant = db.get_restaurant(restaurant_id)
+    return render_template('delete-restaurant.html', restaurant=restaurant)
 
 
 @app.route('/restaurants/<int:restaurant_id>/menu')
 def showMenu(restaurant_id):
-    return "This will show the menu for a specific restaurant ID: {}".format(restaurant_id)
+    db = DB_Connection()
+    restaurant = db.get_restaurant(restaurant_id)
+    menu = db.get_menu(restaurant_id)
+    return render_template('menu.html', restaurant=restaurant, menu=menu)
 
 
 @app.route('/restaurants/<int:restaurant_id>/menu/new')
 def newMenuItem(restaurant_id):
-    return "This will be form to add a menu item to the restaurant ID: {}".format(restaurant_id)
+    db = DB_Connection()
+    restaurant = db.get_restaurant(restaurant_id)
+    return render_template('new-menu-item.html', restaurant=restaurant)
 
 
 @app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/edit')
 def editMenuItem(restaurant_id, menu_id):
-    return "This will be a form to edit menu item ID: {}".format(menu_id)
+    db = DB_Connection()
+    restaurant = db.get_restaurant(restaurant_id)
+    menu_item = db.get_menu_item(menu_id)
+    return render_template(
+        "edit-menu-item.html", restaurant=restaurant, menu_item=menu_item)
 
 
 @app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/delete')
 def deleteMenuItem(restaurant_id, menu_id):
-    return "This will be a form to delete the menu item ID: {}".format(menu_id)
+    db = DB_Connection()
+    restaurant = db.get_restaurant(restaurant_id)
+    menu_item = db.get_menu_item(menu_id)
+    return render_template(
+        'delete-menu-item.html', restaurant=restaurant, menu_item=menu_item)
 
 
 if __name__ == '__main__':

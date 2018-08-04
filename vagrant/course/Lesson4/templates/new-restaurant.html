@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Menu Maker: New Restaurant</title>
+    <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+        <h1>Restaurant Menus</h1>
+        <nav>
+            <a href="{{ url_for('showRestaurants') }}">Home</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Create a new restaurant</h2>
+        <form action="#" method="POST" class="form">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="name">
+            </div>
+            <div>
+                <input type="submit" value="Create">
+            </div>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2018 Joseph Behrens</p>
+    </footer>
+</body>
