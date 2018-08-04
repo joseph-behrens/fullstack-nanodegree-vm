@@ -35,3 +35,11 @@ body {
 .flash_messages {
     color: darkred;
 }
+
+i {
+    padding-right: 5px;
+}
+
+.copywrite {
+    padding-left: 10px;
+}

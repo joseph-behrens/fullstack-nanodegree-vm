@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <title>Menu Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
@@ -33,9 +35,9 @@
             <br>
             {% for restaurant in restaurants %}
                 <div class="list-group">
-                    <h5 class="list-group-item list-group-item-light display-4">
+                    <h2 class="list-group-item list-group-item-light display-4">
                         <a href="/restaurants/{{restaurant.id}}/menu">{{restaurant.name}}</a>
-                    </h5>
+                    </h2>
                     <p class="list-group-item small">
                         <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.id) }}">Edit</a>
                         <span class="verticalLine"></span>
@@ -45,9 +47,5 @@
             {% endfor %}
         </div>
     </main>
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted text-right">&copy; 2018 Joseph Behrens</span>
-        </div>        
-    </footer>
+{% include "shared/footer.html" %}
 </body>

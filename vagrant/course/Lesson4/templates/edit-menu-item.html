@@ -2,41 +2,64 @@
 <html lang="en">
 <head>
     <title>Menu Maker: Edit Menu Item</title>
-    <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
-</head>
-<body>
-    <header>
-        <h1>Restaurant Menus</h1>
-        <nav>
-            <a href="{{ url_for('showRestaurants') }}">Home</a>
-        </nav>
-    </header>
-    <main>
-        <h2>Edit {{menu_item.name}} for {{restaurant.name}}</h2>
-        <form action="#" method="POST" class="form">
-            <div>
-                <label for="course">Course:</label>
-                <input type="text" name="course" value="{{menu_item.course}}">
-            </div>
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" name="name" value="{{menu_item.name}}">
-            </div>
-            <div>
-                <label for="description">Description:</label>
-                <input type="text" name="description" value="{{menu_item.description}}">
-            </div>
-            <div>
-                <label for="price">Price:</label>
-                <input type="text" name="price" value="{{menu_item.price}}">
-            </div>
-            <div>
-                <input type="submit" value="Update">
-                <a href="{{ url_for('showMenu',restaurant_id=restaurant.id) }}"><input type="button" value="Cancel"></a>
-            </div>
-        </form>
+{% include "shared/header.html" %}
+    <main role="main" class="container">
+        <div class="jumbotron">
+            <h2 class="display-4 text-center">Edit {{menu_item.name}} for {{restaurant.name}}</h2>
+            <hr><br>
+            <form action="#" method="POST" class="form">
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <select name="course" class="form-control" required>
+                        {% if menu_item.course == "Appetizer" %}
+                            <option value="Appetizer" selected>Appetizer</option>
+                        {% else %}
+                            <option value="Appetizer">Appetizer</option>
+                        {% endif %}
+
+                        {% if menu_item.course == "Entree" %}
+                            <option value="Entree" selected >Entree</option>
+                        {% else %}
+                            <option value="Entree">Entree</option>
+                        {% endif %}
+                        
+                        {% if menu_item.course == "Dessert" %}
+                            <option value="Dessert" selected >Dessert</option>
+                        {% else %}
+                            <option value="Dessert">Dessert</option>
+                        {% endif %}
+
+
+                        {% if menu_item.course == "Beverage" %}
+                            <option value="Beverage" selected >Beverage</option>
+                        {% else %}
+                            <option value="Beverage">Beverage</option>
+                        {% endif %}
+
+                        {% if menu_item.course == "Other" %}
+                            <option value="Other" selected >Other</option>
+                        {% else %}
+                            <option value="Other">Other</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" value="{{menu_item.name}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" name="description" value="{{menu_item.description}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="text" class="form-control" name="price" value="{{menu_item.price}}" required>
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" value="Update" class="btn btn-dark">
+                    <a href="{{ url_for('showMenu',restaurant_id=restaurant.id) }}" class="btn btn-dark">Cancel</a>
+                </div>
+            </form>
+        </div>
     </main>
-    <footer>
-        <p>&copy; 2018 Joseph Behrens</p>
-    </footer>
-</body>
+{% include "shared/footer.html" %}

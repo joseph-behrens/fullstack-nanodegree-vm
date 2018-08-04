@@ -2,24 +2,7 @@
 <html lang="en">
 <head>
     <title>Menu Maker: {{restaurant.name}}</title>
-    <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark mb-4">
-            <a class="navbar-brand" href="{{ url_for('showRestaurants') }}">Restaurant Menus</a>
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('newRestaurant') }}">Create a New Restaurant <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('newMenuItem',restaurant_id=restaurant.id) }}">Create New Menu Item <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    {% include "shared/header.html" %}
     <main role="main" class="container">
         <div class="flash_messages">
             {% with messages = get_flashed_messages() %}
@@ -108,14 +91,11 @@
                 {% endif %}
             {% else %}
                 <div>
-                    <p>There are no menu items for this restaurant yet. Add some!</p>
+                    <h3 class="text-center">There are no menu items for this restaurant yet.</h3><br>
+                    <div class="text-center"><a href="{{ url_for('newMenuItem',restaurant_id=restaurant.id) }}" class="btn btn-dark">Create One!</a></div>
                 </div>
             {% endif %}
         </div>
     </main>
-    <footer class="footer">
-        <div class="container">
-            <span class="text-muted text-right">&copy; 2018 Joseph Behrens</span>
-        </div>        
-    </footer>
+{% include "shared/footer.html" %}
 </body>

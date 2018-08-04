@@ -2,28 +2,21 @@
 <html lang="en">
 <head>
     <title>Menu Maker: Delete {{menu_item.name}}</title>
-    <link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css"/>
-</head>
-<body>
-    <header>
-        <h1>Delete {{menu_item.name}} from {{restaurant.name}}</h1>
-        <nav>
-            <a href="{{ url_for('showRestaurants') }}">Home</a>
-        </nav>
-    </header>
-    <main>
-        <form action="#" method="POST" class="form">
-            <div>
-                <h2>Are you SURE?</h2>
-                <h3>This cannot be undone!</h3>
-            </div>
-            <div>
-                <input type="submit" value="DELETE!">
-                <a href="{{ url_for('showMenu',restaurant_id=restaurant.id) }}"><input type="button" value="Cancel"></a> <!-- TODO: Convert to Bootstrap -->
-            </div>
-        </form>
+    {% include "shared/header.html" %}
+    <main role="main" class="container">
+        <div class="jumbotron">
+            <form action="#" method="POST" class="form">
+                <h1 class="display-4 text-center">Delete {{menu_item.name}} from {{restaurant.name}}</h1>
+                <hr><br>
+                <div class="form-group text-center">
+                    <h2>Are you SURE?</h2>
+                    <h3>This cannot be undone!</h3>
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" class="btn btn-danger" value="DELETE!">
+                    <a href="{{ url_for('showMenu',restaurant_id=restaurant.id) }}" class="btn btn-dark">Cancel</a>
+                </div>
+            </form>
+        </div>
     </main>
-    <footer>
-        <p>&copy; 2018 Joseph Behrens</p>
-    </footer>
-</body>
+{% include "shared/footer.html" %}
