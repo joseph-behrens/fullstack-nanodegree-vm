@@ -41,6 +41,13 @@ def showRestaurants():
     return render_template('index.html', restaurants=restaurants)
 
 
+@app.route('/api/restaurants')
+def showRestaurantsJson():
+    db = DB_Connection()
+    restaurants = db.get_all_restaurants()
+    return jsonify(Restaurants=[restaurant.serialize for restaurant in restaurants])
+
+
 @app.route('/restaurants/new', methods=['GET', 'POST'])
 def newRestaurant():
     db = DB_Connection()
@@ -91,6 +98,20 @@ def showMenu(restaurant_id):
     restaurant = db.get_restaurant(restaurant_id)
     menu = db.get_menu(restaurant_id)
     return render_template('menu.html', restaurant=restaurant, menu=menu)
+
+
+@app.route('/api/restaurants/<int:restaurant_id>/menu')
+def showMenuJson(restaurant_id):
+    db = DB_Connection()
+    menu = db.get_menu(restaurant_id)
+    return jsonify(MenuItem=[item.serialize for item in menu])
+
+
+@app.route('/api/restaurants/<int:restaurant_id>/menu/<int:menu_id>')
+def showMenuItemJson(restaurant_id, menu_id):
+    db = DB_Connection()
+    menu_item = db.get_menu_item(menu_id)
+    return jsonify(MenuItem=menu_item.serialize)
 
 
 @app.route('/restaurants/<int:restaurant_id>/menu/new', methods=['GET', 'POST'])
