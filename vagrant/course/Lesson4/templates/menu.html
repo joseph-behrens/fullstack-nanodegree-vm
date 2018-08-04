@@ -13,16 +13,31 @@
         </nav>
     </header>
     <main>
-        {% for item in menu %}
-        <div>
-            <p>{{item.course}}</p>
-            <p>{{item.name}}</p>
-            <p>{{item.description}}</p>
-            <p>{{item.price}}</p>
-            <p><a href="{{ url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}">Edit</a></p>
-            <p><a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}">Delete</a></p>
+        <div class="flash_messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                        {% for message in messages %}
+                            <div>{{message}}</div>
+                        {% endfor %}
+                {% endif %}
+            {% endwith %}
         </div>
-        {% endfor %}
+        {% if menu[0] %}
+            {% for item in menu %}
+            <div>
+                <p>{{item.course}}</p>
+                <p>{{item.name}}</p>
+                <p>{{item.description}}</p>
+                <p>{{item.price}}</p>
+                <p><a href="{{ url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}">Edit</a></p>
+                <p><a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}">Delete</a></p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div>
+                <p>There are no menu items for this restaurant yet. Add some!</p>
+            </div>
+        {% endif %}
     </main>
     <footer>
         <p>&copy; 2018 Joseph Behrens</p>
